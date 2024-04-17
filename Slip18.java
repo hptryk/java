@@ -18,42 +18,74 @@
 */
 
 /*
-import java.io.*; 
-import javax.servlet.*;
-import javax.servlet.http.*;
-public class count extends HttpServlet 
-{
-    static int count=0,c2=0;
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws
-    ServletException, IOException 
-    {
-      response.setContentType("text/html");
-      PrintWriter out = response.getWriter();
-      String name=request.getParameter("t1"); 
-      Cookie c1=new Cookie("count",String.valueOf(count));
-      c2=Integer.parseInt(c1.getValue());
-      if(c2==0)
-      {
-        out.println("Welcome="+name); 
-        count++;
-      }
-      else
-      { 
-        c1=new Cookie("count",String.valueOf(count)); 
-        count++;
-        out.println("Welcome="+name+"\t"+count); 
-      }
-    }
-}
-
-
-HTML Code
+//create folder in example with Slip18.html
+<!DOCTYPE html>
 <html>
+<head>
+    <title>Student Details Form</title>
+</head>
 <body>
-<form action="http://localhost:8080" method="get">
-      Username:<input type="text" name="t1">
-<input type="submit" >
-</form>
+    <h2>Enter Student Details</h2>
+    <form action="Student" method="post">
+        Seat No: <input type="text" name="seatNo"><br>
+        Name: <input type="text" name="studentName"><br>
+        Class: <input type="text" name="studentClass"><br>
+        Total Marks: <input type="text" name="totalMarks"><br>
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
+
+//create folder in example with Slip18.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class Student extends HttpServlet 
+{
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException 
+        {
+        int seatNo = Integer.parseInt(request.getParameter("seatNo"));
+        String studentName = request.getParameter("studentName");
+        String studentClass = request.getParameter("studentClass");
+        int totalMarks = Integer.parseInt(request.getParameter("totalMarks"));
+        
+        double percentage = (totalMarks / 500.0) * 100;
+  
+        String grade;
+        if (percentage >= 90) 
+        {
+            grade = "A+";
+        } 
+        else if (percentage >= 80) 
+        {
+            grade = "A";
+        } 
+        else if (percentage >= 70) 
+        {
+            grade = "B";
+        } 
+        else if (percentage >= 60) 
+        {
+            grade = "C";
+        } 
+        else if (percentage >= 50) 
+        {
+            grade = "D";
+        } 
+        else 
+        {
+            grade = "Fail";
+        }
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<html><head><title>Student Details</title></head><body>");
+        out.println("<h2>Student Details</h2>");
+        out.println("<table border=\"1\"><tr><th>Seat No</th><th>Name</th><th>Class</th><th>Total Marks</th><th>Percentage</th><th>Grade</th></tr>");
+        out.println("<tr><td>" + seatNo + "</td><td>" + studentName + "</td><td>" + studentClass + "</td><td>" + totalMarks + "</td><td>" + percentage + "%</td><td>" + grade + "</td></tr>");
+        out.println("</table>");
+        out.println("</body></html>");
+    }
+}
 */
