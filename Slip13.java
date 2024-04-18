@@ -1,73 +1,33 @@
 /*
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.sql.*;
-public class Slip13 extends JFrame 
+public class Slip13 
 {
-    private JTable table;
-    public Slip13() 
+    public static void main(String[] args) 
     {
-        setTitle("Project Management System");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-
-        table = new JTable();
-        JScrollPane scrollPane = new JScrollPane(table);
-        getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-        displayData();
-
-        setVisible(true);
-    }
-    private void displayData() 
-    {
-    try 
-    {
-      Connection connection = DriverManager.getConnection("jdbc:postgresql://192.168.1.254/ty32","ty32","ty32");
-      Statement statement = connection.createStatement();     
-      ResultSet resultSet = statement.executeQuery("SELECT * FROM project");
-
-      ResultSetMetaData metaData = resultSet.getMetaData();
-      int columnCount = metaData.getColumnCount();
-      DefaultTableModel model = new DefaultTableModel();
-
-      for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) 
-      {
-        model.addColumn(metaData.getColumnName(columnIndex));
-      }
-
-      while (resultSet.next()) 
-      {
-        Object[] row = new Object[columnCount];
-        for (int i = 0; i < columnCount; i++) 
+        try 
         {
-          row[i] = resultSet.getObject(i + 1);
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://192.168.1.254/ty32","ty32","t32");
+            DatabaseMetaData metaData = connection.getMetaData();
+
+            System.out.println("Database Product Name: " + metaData.getDatabaseProductName());
+            System.out.println("Database Product Version: " + metaData.getDatabaseProductVersion());
+            System.out.println("Driver Name: " + metaData.getDriverName());
+            System.out.println("Driver Version: " + metaData.getDriverVersion());
+
+            ResultSet tables = metaData.getTables(null, null, null, new String[]{"TABLE"});
+            System.out.println("\nTables in the database:");
+            while (tables.next()) 
+            {
+                String tableName = tables.getString("TABLE_NAME");
+                System.out.println(tableName);
+            }
+        } 
+        catch (SQLException e) 
+        {
+            e.printStackTrace();
         }
-        model.addRow(row);
-      }
-      table.setModel(model);
-      resultSet.close();
-      statement.close();
-      connection.close();
-    } 
-    catch (SQLException e) 
-    {
-      e.printStackTrace();
-    }
-  }
-  public static void main(String[] args) 
-    {
-        SwingUtilities.invokeLater(Slip13::new);
     }
 }
-sql-
-//create table Donor(project_id int,project_name varchar(225),project_description varchar(255),project_status varchar(225));
-//insert into Donor(project_id,project_name,project_description,project_status)values(1,'aman','Create Application','inprogress);
-//insert into Donor(project_id,project_name,project_description,project_status)values(2,'sawan','Create document','completed);
-//select * from project;
-
 */
 
 /*
